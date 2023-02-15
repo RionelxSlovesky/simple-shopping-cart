@@ -1,33 +1,58 @@
 const btnCaseField = document.getElementById('btn-case-field');
 const btnCasePlus = document.getElementById('btn-case-plus');
 const btnCaseMinus = document.getElementById('btn-case-minus');
+const caseTotal = document.getElementById('case-total');
 
 const btnIphoneField = document.getElementById('btn-iphone-field');
 const btnIphonePlus = document.getElementById('btn-iphone-plus');
 const btnIphoneMinus = document.getElementById('btn-iphone-minus');
 
 
+console.log(btnCaseField.parentNode.parentNode.childNodes[3].childNodes[1].innerText)
 
-function incrementItems (element1, element2){
+function updateItemCost(isIncrement, field){
 
-    element1.addEventListener('click', function(){
+    const oldCost = parseInt(field.parentNode.parentNode.childNodes[3].childNodes[1].innerText);
 
-        element2.value = parseInt(element2.value)  + 1;
+    let singleCost;
+
+    if(isIncrement==true){
+        singleCost = oldCost / (parseInt(field.value)-1);
+    }else{
+        singleCost = oldCost / (parseInt(field.value)+1);
+    }
+
+    const newCost = singleCost * parseInt(field.value);
+
+    field.parentNode.parentNode.childNodes[3].childNodes[1].innerText = newCost;
+
+}
+
+
+function incrementItems (btn, field){
+
+    btn.addEventListener('click', function(){
+
+        field.value = parseInt(field.value)  + 1;
+
+        updateItemCost(true, field);
 
     })
 
 }
 
-function decrementItems(element1,element2){
+function decrementItems(btn,field){
 
-    element1.addEventListener('click', function(){
+    btn.addEventListener('click', function(){
     
-        if(element2.value - 1 < 0){
+        if(parseInt(field.value)-1 < 1){
             return;
         }
     
-        element2.value = parseInt(element2.value)  - 1;
-    
+        field.value = parseInt(field.value)  - 1;
+
+        updateItemCost(false, field);
+
     })
 
 }
